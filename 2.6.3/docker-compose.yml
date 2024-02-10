@@ -1,0 +1,46 @@
+version: '3'
+services:
+  cloudlog-main:
+    image: jk13xyz/cloudlog:testing
+    container_name: cloudlog-main
+    depends_on:
+      - cloudlog-mysql
+    volumes:
+      - cloudlog-config:/var/www/html/application/config
+      - cloudlog-backup:/var/www/html/application/backup
+      - cloudlog-uploads:/var/www/html/application/uploads
+    ports:
+      - "7373:80"
+    restart: unless-stopped  
+    
+  cloudlog-mysql:
+    image: mysql:latest
+    container_name: cloudlog-mysql
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: yes
+      MYSQL_DATABASE: cloudlog
+      MYSQL_USER: cloudlog
+      MYSQL_PASSWORD: "STRONG_PASSWORD"
+    volumes:
+      - cloudlog-dbdata:/var/lib/mysql
+    restart: unless-stopped
+
+  cloudlog-phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: cloudlog-phpmyadmin
+    depends_on:
+      - cloudlog-mysql
+    environment:
+      PMA_HOST: cloudlog-mysql
+      PMA_PORT: 3306
+      PMA_USER: cloudlog
+      PMA_PASSWORD: "STRONG_PASSWORD"
+    restart: unless-stopped
+    ports:
+      - "7374:80" 
+
+volumes:
+  cloudlog-dbdata:
+  cloudlog-config:
+  cloudlog-backup:
+  cloudlog-uploads:
