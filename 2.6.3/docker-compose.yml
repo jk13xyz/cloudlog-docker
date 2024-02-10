@@ -1,7 +1,7 @@
 version: '3'
 services:
   cloudlog-main:
-    image: jk13xyz/cloudlog:testing
+    image: jk13xyz/cloudlog:2.6.3
     container_name: cloudlog-main
     depends_on:
       - cloudlog-mysql
