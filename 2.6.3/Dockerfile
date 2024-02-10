@@ -12,7 +12,6 @@ RUN apt-get update \
     curl \
     libxml2-dev \
     libonig-dev \
-    unzip \
     wget
 RUN docker-php-ext-install \
     mysqli \
@@ -21,11 +20,11 @@ RUN docker-php-ext-install \
 RUN a2enmod rewrite    
 RUN cd /var/www/html && rm -rf *
 WORKDIR /var/www/html
-RUN wget https://github.com/magicbug/Cloudlog/archive/refs/tags/${VERSION}.zip && \
-    unzip ${VERSION}.zip && \
+RUN wget https://github.com/magicbug/Cloudlog/archive/refs/tags/${VERSION}.tar.gz && \
+    tar -xf ${VERSION}.tar.gz && \
     mv /var/www/html/Cloudlog-${VERSION}/* /var/www/html/ && \
     rm -rf Cloudlog-${VERSION} && \
-    rm ${VERSION}.zip
+    rm ${VERSION}.tar.gz
 RUN chown -R www-data:www-data /var/www/html
 RUN sed -i "s/\$config\['index_page'\] = 'index.php';/\$config\['index_page'\] = '';/g" ./install/config/config.php
 COPY misc/.htaccess /var/www/html/
