@@ -20,8 +20,7 @@ RUN a2enmod rewrite
 RUN cd /var/www/html && rm -rf *
 WORKDIR /var/www/html
 RUN git clone https://github.com/magicbug/Cloudlog.git /var/www/html
-RUN cd /var/www/html \
-    && chown -R www-data:www-data /var/www/html
+RUN chown -R www-data:www-data /var/www/html
 RUN sed -i "s/\$config\['index_page'\] = 'index.php';/\$config\['index_page'\] = '';/g" ./install/config/config.php
 COPY misc/.htaccess /var/www/html/
 RUN sed -i "s/define('ENVIRONMENT', 'development');/define('ENVIRONMENT', 'production');/" ./index.php

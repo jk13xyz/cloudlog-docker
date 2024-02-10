@@ -21,7 +21,6 @@ RUN docker-php-ext-install \
 RUN a2enmod rewrite    
 RUN cd /var/www/html && rm -rf *
 WORKDIR /var/www/html
-RUN cd /var/www/html
 RUN wget https://github.com/magicbug/Cloudlog/archive/refs/tags/${VERSION}.zip && \
     unzip ${VERSION}.zip && \
     mv /var/www/html/Cloudlog-${VERSION}/* /var/www/html/ && \
