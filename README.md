@@ -16,7 +16,7 @@ This is an unofficial Docker for [Cloudlog](https://github.com/magicbug/Cloudlog
 
 ### Docker Compose:
 
-    ```yaml
+    ```
 
     version: '3'
         services:
@@ -70,16 +70,12 @@ This is an unofficial Docker for [Cloudlog](https://github.com/magicbug/Cloudlog
 ### Docker Run:
 
 
-    ``` shell
+    ```
 
         docker volume create cloudlog-dbdata && \
         docker volume create cloudlog-config && \
         docker volume create cloudlog-backup && \
         docker volume create cloudlog-uploads
-
-    ```
-
-    ``` shell
     
         docker run -d \
             --name cloudlog-main \
@@ -90,9 +86,6 @@ This is an unofficial Docker for [Cloudlog](https://github.com/magicbug/Cloudlog
             --restart unless-stopped \
             jk13xyz/cloudlog:latest
 
-    ```
-    ``` shell
-
         docker run -d \
             --name cloudlog-mysql \
             -e MYSQL_RANDOM_ROOT_PASSWORD=yes \
@@ -102,10 +95,8 @@ This is an unofficial Docker for [Cloudlog](https://github.com/magicbug/Cloudlog
             -v cloudlog-dbdata:/var/lib/mysql \
             --restart unless-stopped \
             mysql:latest
-    ```
-    ``` shell
 
-    docker run -d \
+        docker run -d \
             --name cloudlog-phpmyadmin \
             -e PMA_HOST=cloudlog-mysql \
             -e PMA_PORT=3306 \
@@ -140,9 +131,9 @@ Please note that I do not offer any support. Use at your own risk.
 
 - This Docker: 
 
-    [gh:jk13xyz/cloudlog-docker](https://github.com/jk13xyz/cloudlog-docker)
+    [jk13xyz/cloudlog-docker](https://github.com/jk13xyz/cloudlog-docker)
 
 - Cloudlog:
 
-    [gh:magicbug/cloudlog](https://github.com/magicbug/cloudlog)
+    [magicbug/cloudlog](https://github.com/magicbug/cloudlog)
 
