@@ -47,4 +47,4 @@ RUN touch /etc/crontab && \
     echo "@monthly curl --silent http://localhost/update/update_sota &>/dev/null" >> /etc/crontab && \
     echo "@monthly curl --silent http://localhost/update/update_wwff &>/dev/null" >> /etc/crontab && \
     echo "@monthly curl --silent http://localhost/update/update_pota &>/dev/null" >> /etc/crontab
-HEALTHCHECK CMD wget -q --no-cache --spider localhost
+# HEALTHCHECK CMD wget -q --no-cache --spider localhost
