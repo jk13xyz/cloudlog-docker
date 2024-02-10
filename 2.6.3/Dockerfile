@@ -10,6 +10,7 @@ RUN apt-get update \
     && apt-get install -y \
     git \
     curl \
+    cron \
     libxml2-dev \
     libonig-dev \
     wget
@@ -51,4 +52,8 @@ RUN touch /etc/crontab && \
     echo "@monthly curl --silent http://localhost/update/update_sota &>/dev/null" >> /etc/crontab && \
     echo "@monthly curl --silent http://localhost/update/update_wwff &>/dev/null" >> /etc/crontab && \
     echo "@monthly curl --silent http://localhost/update/update_pota &>/dev/null" >> /etc/crontab
+RUN chmod 0644 /etc/crontab
+RUN crontab /etc/crontab
+RUN mkdir -p /var/log/cron
+RUN sed -i 's/^exec /service cron start\n\nexec /' /usr/local/bin/apache2-foreground 
 HEALTHCHECK CMD wget -q --no-cache --spider localhost/user/login
