@@ -10,7 +10,8 @@ RUN apt-get update \
     git \
     curl \
     libxml2-dev \
-    libonig-dev
+    libonig-dev \
+    wget
 RUN docker-php-ext-install \
     mysqli \
     mbstring \
@@ -33,17 +34,17 @@ RUN chmod -R g+rw ./application/config/ \
     && chmod -R g+rw ./images/eqsl_card_images/ \
     && chmod -R g+rw ./assets/json/ \
     && chmod -R 777 /var/www/html/install
-RUN touch /etc/crontab \
-    echo "3 */6 * * * curl --silent http://localhost/clublog/upload &>/dev/null" >> /etc/crontab \
-    echo "0 */1 * * * curl --silent http://localhost/lotw/lotw_upload &>/dev/null" >> /etc/crontab \
-    echo "6 */6 * * * curl --silent http://localhost/qrz/upload &>/dev/null" >> /etc/crontab \
-    echo "18 */6 * * * curl --silent http://localhost/qrz/download &>/dev/null" >> /etc/crontab \
-    echo "12 */6 * * * curl --silent http://localhost/hrdlog/upload &>/dev/null" >> /etc/crontab \
-    echo "9 */6 * * * curl --silent http://localhost/eqsl/sync &>/dev/null" >> /etc/crontab \
-    echo "10 1 * * 1 curl --silent http://localhost/update/lotw_users &>/dev/null" >> /etc/crontab \
-    echo "@weekly curl --silent http://localhost/update/update_clublog_scp &>/dev/null" >> /etc/crontab \
-    echo "@monthly  curl --silent http://localhost/update/update_dok &>/dev/null" >> /etc/crontab \
-    echo "@monthly curl --silent http://localhost/update/update_sota &>/dev/null" >> /etc/crontab \
-    echo "@monthly curl --silent http://localhost/update/update_wwff &>/dev/null" >> /etc/crontab \
+RUN touch /etc/crontab && \
+    echo "3 */6 * * * curl --silent http://localhost/clublog/upload &>/dev/null" >> /etc/crontab && \
+    echo "0 */1 * * * curl --silent http://localhost/lotw/lotw_upload &>/dev/null" >> /etc/crontab && \
+    echo "6 */6 * * * curl --silent http://localhost/qrz/upload &>/dev/null" >> /etc/crontab && \
+    echo "18 */6 * * * curl --silent http://localhost/qrz/download &>/dev/null" >> /etc/crontab && \
+    echo "12 */6 * * * curl --silent http://localhost/hrdlog/upload &>/dev/null" >> /etc/crontab && \
+    echo "9 */6 * * * curl --silent http://localhost/eqsl/sync &>/dev/null" >> /etc/crontab && \
+    echo "10 1 * * 1 curl --silent http://localhost/update/lotw_users &>/dev/null" >> /etc/crontab && \
+    echo "@weekly curl --silent http://localhost/update/update_clublog_scp &>/dev/null" >> /etc/crontab && \
+    echo "@monthly  curl --silent http://localhost/update/update_dok &>/dev/null" >> /etc/crontab && \
+    echo "@monthly curl --silent http://localhost/update/update_sota &>/dev/null" >> /etc/crontab && \
+    echo "@monthly curl --silent http://localhost/update/update_wwff &>/dev/null" >> /etc/crontab && \
     echo "@monthly curl --silent http://localhost/update/update_pota &>/dev/null" >> /etc/crontab
 HEALTHCHECK CMD wget -q --no-cache --spider localhost

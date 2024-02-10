@@ -13,7 +13,7 @@ services:
       - "7373:80"
     restart: unless-stopped  
     
-  cloudlog-mysql:
+  cloudlog-mariadb:
     image: mysql:latest
     container_name: cloudlog-mysql
     environment:
