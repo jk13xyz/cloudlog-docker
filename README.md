@@ -2,7 +2,7 @@
 
 This is an unofficial Docker for [Cloudlog](https://github.com/magicbug/Cloudlog), a PHP based amateur radio logging software created by 2M0SQL.
 
-## Config:
+## Config
 
 - Based on php:8.2-apache,
 - mod_rewrite enabled,
@@ -10,11 +10,11 @@ This is an unofficial Docker for [Cloudlog](https://github.com/magicbug/Cloudlog
 - "Production" mode enabled by default,
 - Comes with Cronjobs preconfigured.
 
-## Usage:
+## Usage
 
 **IMPORTANT: MAKE SURE TO CHANGE THE MYSQL PASSWORD!**
 
-### Docker Compose:
+### Docker Compose
 
     ```
 
@@ -67,8 +67,7 @@ This is an unofficial Docker for [Cloudlog](https://github.com/magicbug/Cloudlog
 
     ```
 
-### Docker Run:
-
+### Docker Run
 
     ```
 
@@ -107,7 +106,7 @@ This is an unofficial Docker for [Cloudlog](https://github.com/magicbug/Cloudlog
             phpmyadmin:latest
     ```
 
-## Install:
+## Install
 
 1. Open Cloudlog on your host (e.g. localhost:7373).
 2. Change the Locator and adjust the URL, if necessary. You can leave "Directory" usually empty.
@@ -119,19 +118,19 @@ This is an unofficial Docker for [Cloudlog](https://github.com/magicbug/Cloudlog
 
     Use the password you choose when running the docker.
 
-3. Hit install.
-    
+4. Hit install.
+
     - If Cloudlog installs into a blank screen, open the base URL
 
-## Support:
+## Support
 
-Please note, this is primarily for my own setup. I made it because it offers support out of the box for things other images don't. 
+Please note, this is primarily for my own setup. I made it because it offers support out of the box for things other images don't.
 
 Feel free to use it (it should work fine). If you find issues, report them on my [Github](https://github.com/jk13xyz/cloudlog-docker/issues). However, I don't guarantee any support.
 
-## Source:
+## Source
 
-- This Docker: 
+- This Docker:
 
     [jk13xyz/cloudlog-docker](https://github.com/jk13xyz/cloudlog-docker)
 
