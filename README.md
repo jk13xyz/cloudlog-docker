@@ -125,7 +125,9 @@ This is an unofficial Docker for [Cloudlog](https://github.com/magicbug/Cloudlog
 
 ## Support:
 
-Please note that I do not offer any support. Use at your own risk.
+Please note, this is primarily for my own setup. I made it because it offers support out of the box for things other images don't. 
+
+Feel free to use it (it should work fine). If you find issues, report them on my [Github](https://github.com/jk13xyz/cloudlog-docker/issues). However, I don't guarantee any support.
 
 ## Source:
 
@@ -136,4 +138,3 @@ Please note that I do not offer any support. Use at your own risk.
 - Cloudlog:
 
     [magicbug/cloudlog](https://github.com/magicbug/cloudlog)
-
