@@ -1,4 +1,5 @@
-FROM php:8.2-apache                                                                                                      
+FROM php:8.2-apache        
+ARG VERSION=2.6.4                                                                                              
 RUN touch /usr/local/etc/php/conf.d/uploads.ini \                                                                                                           
     && echo "file_uploads = On" >> /usr/local/etc/php/conf.d/uploads.ini \
     && echo "memory_limit = 64M" >> /usr/local/etc/php/conf.d/uploads.ini \
@@ -20,7 +21,11 @@ RUN docker-php-ext-install \
 RUN a2enmod rewrite    
 RUN cd /var/www/html && rm -rf *
 WORKDIR /var/www/html
-RUN git clone https://github.com/magicbug/Cloudlog.git /var/www/html
+RUN wget https://github.com/magicbug/Cloudlog/archive/refs/tags/${VERSION}.tar.gz && \
+    tar -xf ${VERSION}.tar.gz && \
+    mv /var/www/html/Cloudlog-${VERSION}/* /var/www/html/ && \
+    rm -rf Cloudlog-${VERSION} && \
+    rm ${VERSION}.tar.gz
 RUN chown -R www-data:www-data /var/www/html
 RUN sed -i "s/\$config\['index_page'\] = 'index.php';/\$config\['index_page'\] = '';/g" ./install/config/config.php
 COPY misc/.htaccess /var/www/html/
