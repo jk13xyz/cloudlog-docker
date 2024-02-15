@@ -7,7 +7,8 @@ RUN touch /usr/local/etc/php/conf.d/uploads.ini \
     && echo "post_max_size = 64M" >> /usr/local/etc/php/conf.d/uploads.ini \
     && echo "max_execution_time = 120" >> /usr/local/etc/php/conf.d/uploads.ini
 RUN apt-get update \
-    && apt-get install -y \ 
+    && apt-get install -y \
+    git \
     curl \
     cron \
     libxml2-dev \
