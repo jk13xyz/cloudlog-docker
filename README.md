@@ -122,6 +122,60 @@ This is an unofficial Docker for [Cloudlog](https://github.com/magicbug/Cloudlog
 
     - If Cloudlog installs into a blank screen, open the base URL
 
+## Cronjobs
+
+All cronjobs are set by the Dockerfile. They don't need to be manually enabled. They also cannot be changed manually. I use these settings because they made the most sense to me. The spacing is done to ensure the scripts don't run concurrently and cause time-outs.
+
+The set cronjobs and runtimes are:
+
+### ClubLog upload
+
+Every day at 00:00 and 12:00
+
+### QRZ upload
+
+Every day at 00:10 and 12:10
+
+### QRZ download
+
+Every day at 00:20 and 12:20
+
+### eQSL sync
+
+Every day at 00:30 and 12:30
+
+### HRDLog upload
+
+Every day at 00:40 and 12:40
+
+### LotW upload
+
+Every day at 01:00
+
+### LotW user database update
+
+Every day at 01:10
+
+### ClubLog Super Check Partial
+
+Every Monday at 01:20
+
+### Summits on the Air (SOTA) database update
+
+On the 1st of every month at 02:00
+
+### World Wide Flora & Fauna (WWFF) databse update
+
+On the 1st of every month at 02:10
+
+### Parks on the Air (POTA) database update
+
+On the 1st of every month at 02:20
+
+### DOK database update
+
+Every 6 months on the 1st at 03:00
+
 ## Support
 
 Please note, this is primarily for my own setup. I made it because it offers support out of the box for things other images don't.
