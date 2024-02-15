@@ -1,22 +1,21 @@
 FROM php:8.2-apache        
 ARG VERSION=2.6.4                                                                                              
-RUN touch /usr/local/etc/php/conf.d/uploads.ini \                                                                                                           
-    && echo "file_uploads = On" >> /usr/local/etc/php/conf.d/uploads.ini \
-    && echo "memory_limit = 64M" >> /usr/local/etc/php/conf.d/uploads.ini \
-    && echo "upload_max_filesize = 64M" >> /usr/local/etc/php/conf.d/uploads.ini \
-    && echo "post_max_size = 64M" >> /usr/local/etc/php/conf.d/uploads.ini \
-    && echo "max_execution_time = 120" >> /usr/local/etc/php/conf.d/uploads.ini
-RUN apt-get update \
-    && apt-get install -y \
-    git \
-    curl \
-    cron \
-    libxml2-dev \
-    libonig-dev \
+RUN touch /usr/local/etc/php/conf.d/uploads.ini && \                                                                                                           
+    echo "file_uploads = On" >> /usr/local/etc/php/conf.d/uploads.ini && \
+    echo "memory_limit = 64M" >> /usr/local/etc/php/conf.d/uploads.ini && \
+    echo "upload_max_filesize = 64M" >> /usr/local/etc/php/conf.d/uploads.ini && \
+    echo "post_max_size = 64M" >> /usr/local/etc/php/conf.d/uploads.ini && \
+    echo "max_execution_time = 120" >> /usr/local/etc/php/conf.d/uploads.ini
+RUN apt-get update && \
+    apt-get install -y && \
+    curl && \
+    cron && \
+    libxml2-dev && \
+    libonig-dev && \
     wget
-RUN docker-php-ext-install \
-    mysqli \
-    mbstring \
+RUN docker-php-ext-install && \
+    mysqli && \
+    mbstring && \
     xml
 RUN a2enmod rewrite    
 RUN cd /var/www/html && rm -rf *
@@ -42,8 +41,8 @@ RUN chmod -R g+rw ./application/config/ \
 RUN touch /etc/crontab && \
     echo "0 */12 * * * curl --silent http://localhost/clublog/upload &>/dev/null" >> /etc/crontab && \
     echo "10 */12 * * * curl --silent http://localhost/qrz/upload &>/dev/null" >> /etc/crontab && \
-    echo "20 */12 * * * curl --silent http://localhost/qrz/download &>/dev/null" >> /etc/crontab && \        
-    echo "30 */12 * * * curl --silent http://localhost/eqsl/sync &>/dev/null" >> /etc/crontab && \
+    echo "30 */12 * * * curl --silent http://localhost/qrz/download &>/dev/null" >> /etc/crontab && \        
+    echo "20 */12 * * * curl --silent http://localhost/eqsl/sync &>/dev/null" >> /etc/crontab && \
     echo "40 */12 * * * curl --silent http://localhost/hrdlog/upload &>/dev/null" >> /etc/crontab && \
     echo "0 1 1 * * curl --silent http://localhost/lotw/lotw_upload &>/dev/null" >> /etc/crontab && \     
     echo "10 1 1 * * curl --silent http://localhost/update/lotw_users &>/dev/null" >> /etc/crontab && \
