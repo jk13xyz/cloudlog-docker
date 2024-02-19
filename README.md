@@ -1,6 +1,8 @@
 # jk13xyz/cloudlog
 
-This is an unofficial Docker for [Cloudlog](https://github.com/magicbug/Cloudlog), a PHP based amateur radio logging software created by 2M0SQL.
+This is an unofficial Docker image for [Cloudlog](https://github.com/magicbug/Cloudlog), a PHP based amateur radio logging software created by 2M0SQL.
+
+I created it after the team behind Cloudlog decided to rescind any support for Docker and no longer updates the official image. The intent of this image is to also default certain features the official image never had, such as enabling mod_rewrite or cronjobs.
 
 ## Config
 
@@ -8,7 +10,13 @@ This is an unofficial Docker for [Cloudlog](https://github.com/magicbug/Cloudlog
 - mod_rewrite enabled,
 - No "/index.php/" in the URL,
 - "Production" mode enabled by default,
-- Comes with Cronjobs preconfigured.
+- Comes with (most) cronjobs out-of-the-box.
+
+## Current version
+
+2.6.4
+
+**Please note: There's a little bug in the official release showing the version as 2.6.3.**
 
 ## Usage
 
@@ -16,8 +24,7 @@ This is an unofficial Docker for [Cloudlog](https://github.com/magicbug/Cloudlog
 
 ### Docker Compose
 
-    ```
-
+```yaml
     version: '3'
         services:
         cloudlog-main:
@@ -64,13 +71,11 @@ This is an unofficial Docker for [Cloudlog](https://github.com/magicbug/Cloudlog
         cloudlog-config:
         cloudlog-backup:
         cloudlog-uploads:
-
-    ```
+```
 
 ### Docker Run
 
-    ```
-
+```bash
         docker volume create cloudlog-dbdata && \
         docker volume create cloudlog-config && \
         docker volume create cloudlog-backup && \
@@ -104,7 +109,7 @@ This is an unofficial Docker for [Cloudlog](https://github.com/magicbug/Cloudlog
             --restart unless-stopped \
             -p 7374:80 \
             phpmyadmin:latest
-    ```
+```
 
 ## Install
 
@@ -124,7 +129,7 @@ This is an unofficial Docker for [Cloudlog](https://github.com/magicbug/Cloudlog
 
 ## Cronjobs
 
-All cronjobs are set by the Dockerfile. They don't need to be manually enabled. They also cannot be changed manually. I use these settings because they made the most sense to me. The spacing is done to ensure the scripts don't run concurrently and cause time-outs.
+All cronjobs are set by the Dockerfile. They don't need to be manually enabled. They can be updated, but this is a hassle. I use these settings because they made the most sense to me. The spacing is done to ensure the scripts don't run concurrently and cause time-outs.
 
 The set cronjobs and runtimes are:
 
@@ -176,11 +181,27 @@ On the 1st of every month at 02:20
 
 Every 6 months on the 1st at 03:00
 
+### Automatic backup of the ADIF log and Notes
+
+Automating the backup of the logbook as ADIF, as well as the notes, is something that cannot be accomplished by default. Unlike the aforementioned cronjobs, backups require authentication. If this is a functionality you want, you will have to install and setup Cloudlog first. I have provided a shell script in the container to setup the required cronjobs.
+
+In order to make these backups work, you will need to create a read-only API key. For that, open your Cloudlog instance, mouse over your callsign, go down to "API Keys" and click on "Create a read-only key". This key handles the authentication required to call the backup script.
+
+After you created the API key, run the following command in your Terminal shell of choice:
+
+```bash
+docker exec -it cloudlog-main /bin/sh -c ./cronjob_backup.sh -K <YOUR API KEY>
+```
+
+**Note: Please do not use any quotation marks for the API Key.**
+
+This will install a cronjob running daily at 12:00 exporting both the ADIF log and Notes, into the Docker volume called "cloudlog-backup". The cronjob also handles deleting all files older than 30 days.
+
+For direct access, you may map the volume to a folder on the server running Docker. From there, you have plenty of options to implement a good backup strategy.
+
 ## Support
 
-Please note, this is primarily for my own setup. I made it because it offers support out of the box for things other images don't.
-
-Feel free to use it (it should work fine). If you find issues, report them on my [Github](https://github.com/jk13xyz/cloudlog-docker/issues). However, I don't guarantee any support.
+Please note, this is primarily for my own setup. Feel free to use it (it should work fine). If you find issues, report them on my [Github](https://github.com/jk13xyz/cloudlog-docker/issues). However, **I don't guarantee any support.**
 
 ## Source
 
