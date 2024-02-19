@@ -7,15 +7,15 @@ RUN touch /usr/local/etc/php/conf.d/uploads.ini && \
     echo "post_max_size = 64M" >> /usr/local/etc/php/conf.d/uploads.ini && \
     echo "max_execution_time = 120" >> /usr/local/etc/php/conf.d/uploads.ini
 RUN apt-get update && \
-    apt-get install -y && \
-    curl && \
-    cron && \
-    libxml2-dev && \
-    libonig-dev && \
+    apt-get install -y \
+    curl \
+    cron \
+    libxml2-dev \
+    libonig-dev \
     wget
-RUN docker-php-ext-install && \
-    mysqli && \
-    mbstring && \
+RUN docker-php-ext-install \
+    mysqli \
+    mbstring \
     xml
 RUN a2enmod rewrite    
 RUN cd /var/www/html && rm -rf *
@@ -38,6 +38,9 @@ RUN chmod -R g+rw ./application/config/ \
     && chmod -R g+rw ./images/eqsl_card_images/ \
     && chmod -R g+rw ./assets/json/ \
     && chmod -R 777 /var/www/html/install
+COPY misc/cronjob_backup.sh /var/www/html/
+RUN chmod g+rwx ./cronjob_backup.sh && \
+    chmod +x ./cronjob_backup.sh
 RUN touch /etc/crontab && \
     echo "0 */12 * * * curl --silent http://localhost/clublog/upload &>/dev/null" >> /etc/crontab && \
     echo "10 */12 * * * curl --silent http://localhost/qrz/upload &>/dev/null" >> /etc/crontab && \
