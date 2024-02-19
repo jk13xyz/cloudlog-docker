@@ -16,8 +16,6 @@ I created it after the team behind Cloudlog decided to rescind any support for D
 
 2.6.4
 
-**Please note: There's a little bug in the official release showing the version as 2.6.3.**
-
 ## Usage
 
 **IMPORTANT: MAKE SURE TO CHANGE THE MYSQL PASSWORD!**
