@@ -76,39 +76,39 @@ I created it after the team behind Cloudlog decided to rescind any support for D
 ### Docker Run
 
 ```bash
-        docker volume create cloudlog-dbdata && \
-        docker volume create cloudlog-config && \
-        docker volume create cloudlog-backup && \
-        docker volume create cloudlog-uploads
+docker volume create cloudlog-dbdata && \
+docker volume create cloudlog-config && \
+docker volume create cloudlog-backup && \
+docker volume create cloudlog-uploads
     
-        docker run -d \
-            --name cloudlog-main \
-            -v cloudlog-config:/var/www/html/application/config \
-            -v cloudlog-backup:/var/www/html/application/backup \
-            -v cloudlog-uploads:/var/www/html/application/uploads \
-            -p 7373:80 \
-            --restart unless-stopped \
-            jk13xyz/cloudlog:latest
+docker run -d \
+    --name cloudlog-main \
+    -v cloudlog-config:/var/www/html/application/config \
+    -v cloudlog-backup:/var/www/html/application/backup \
+    -v cloudlog-uploads:/var/www/html/application/uploads \
+    -p 7373:80 \
+    --restart unless-stopped \
+    jk13xyz/cloudlog:latest
 
-        docker run -d \
-            --name cloudlog-mysql \
-            -e MYSQL_RANDOM_ROOT_PASSWORD=yes \
-            -e MYSQL_DATABASE=cloudlog \
-            -e MYSQL_USER=cloudlog \
-            -e MYSQL_PASSWORD="STRONG_PASSWORD" \
-            -v cloudlog-dbdata:/var/lib/mysql \
-            --restart unless-stopped \
-            mysql:latest
+docker run -d \
+    --name cloudlog-mysql \
+    -e MYSQL_RANDOM_ROOT_PASSWORD=yes \
+    -e MYSQL_DATABASE=cloudlog \
+    -e MYSQL_USER=cloudlog \
+    -e MYSQL_PASSWORD="STRONG_PASSWORD" \
+    -v cloudlog-dbdata:/var/lib/mysql \
+    --restart unless-stopped \
+    mysql:latest
 
-        docker run -d \
-            --name cloudlog-phpmyadmin \
-            -e PMA_HOST=cloudlog-mysql \
-            -e PMA_PORT=3306 \
-            -e PMA_USER=cloudlog \
-            -e PMA_PASSWORD="STRONG_PASSWORD" \
-            --restart unless-stopped \
-            -p 7374:80 \
-            phpmyadmin:latest
+docker run -d \
+    --name cloudlog-phpmyadmin \
+    -e PMA_HOST=cloudlog-mysql \
+    -e PMA_PORT=3306 \
+    -e PMA_USER=cloudlog \
+    -e PMA_PASSWORD="STRONG_PASSWORD" \
+    --restart unless-stopped \
+    -p 7374:80 \
+    phpmyadmin:latest
 ```
 
 ## Install
@@ -190,12 +190,12 @@ In order to make these backups work, you will need to create a read-only API key
 After you created the API key, run the following command in your Terminal shell of choice:
 
 ```bash
-docker exec -it cloudlog-main /bin/sh -c ./cronjob_backup.sh -K <YOUR API KEY>
+docker exec cloudlog-main /bin/sh -c './cronjob_backup.sh -K <YOUR API KEY>'
 ```
 
 **Note: Please do not use any quotation marks for the API Key.**
 
-This will install a cronjob running daily at 12:00 exporting both the ADIF log and Notes, into the Docker volume called "cloudlog-backup". The cronjob also handles deleting all files older than 30 days.
+This will install a cronjob running daily at 05:00 exporting both the ADIF log and at 05:10 for the Notes, into the Docker volume called "cloudlog-backup". The cronjob also handles deleting all files older than 30 days (runs at 05:20).
 
 For direct access, you may map the volume to a folder on the server running Docker. From there, you have plenty of options to implement a good backup strategy.
 
