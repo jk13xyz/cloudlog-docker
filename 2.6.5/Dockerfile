@@ -57,6 +57,5 @@ RUN mkdir ./crontab && \
     echo "0 3 1 */6 *  curl --silent http://localhost/update/update_dok &>/dev/null" >> /var/www/html/crontab/crontab    
 RUN chmod 0644 /var/www/html/crontab/crontab
 RUN crontab /etc/crontab
-RUN mkdir -p /var/log/cron
 RUN sed -i 's/^exec /service cron start\n\nexec /' /usr/local/bin/apache2-foreground 
 HEALTHCHECK CMD wget -q --no-cache --spider localhost/user/login
