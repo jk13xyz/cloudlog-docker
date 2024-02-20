@@ -1,7 +1,7 @@
 version: '3'
 services:
   cloudlog-main:
-    image: jk13xyz/cloudlog:2.6.3
+    image: jk13xyz/cloudlog:2.6.4
     container_name: cloudlog-main
     depends_on:
       - cloudlog-mysql
@@ -9,6 +9,7 @@ services:
       - cloudlog-config:/var/www/html/application/config
       - cloudlog-backup:/var/www/html/application/backup
       - cloudlog-uploads:/var/www/html/application/uploads
+      - cloudlog-crontab:/etc/crontab
     ports:
       - "7373:80"
     restart: unless-stopped  
@@ -44,3 +45,4 @@ volumes:
   cloudlog-config:
   cloudlog-backup:
   cloudlog-uploads:
+  cloudlog-crontab:
