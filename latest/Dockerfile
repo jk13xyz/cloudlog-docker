@@ -41,7 +41,8 @@ RUN chmod -R g+rw ./application/config/ \
 COPY misc/cronjob_backup.sh /var/www/html/
 RUN chmod g+rwx ./cronjob_backup.sh && \
     chmod +x ./cronjob_backup.sh
-RUN touch /etc/crontab && \
+RUN mkdir ./crontab && \
+    ln -s /etc/crontab ./crontab/crontab && \
     echo "0 */12 * * * curl --silent http://localhost/clublog/upload &>/dev/null" >> /etc/crontab && \
     echo "10 */12 * * * curl --silent http://localhost/qrz/upload &>/dev/null" >> /etc/crontab && \
     echo "30 */12 * * * curl --silent http://localhost/qrz/download &>/dev/null" >> /etc/crontab && \        
