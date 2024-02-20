@@ -16,6 +16,12 @@ I created it after the team behind Cloudlog decided to rescind any support for D
 
 2.6.5
 
+### Please note
+
+Whenever this image is updated post-install, the version number will not update in Cloudlog under "Debug Information" and "Version Info". This is due to a slight oddity with Cloudlog since the version number is a value stored in the MySQL database.
+
+You can manually adjust the version number using phpMyAdmin (you can find the version number in the table "options"), however, adjusting this value is purely cosmetic and has no influence on functionality (other than displaying the wrong changelog when opening "Version Info").
+
 ## Usage
 
 **IMPORTANT: MAKE SURE TO CHANGE THE MYSQL PASSWORD!**
@@ -23,54 +29,56 @@ I created it after the team behind Cloudlog decided to rescind any support for D
 ### Docker Compose
 
 ```yaml
-    version: '3'
-        services:
-        cloudlog-main:
-            image: jk13xyz/cloudlog:latest
-            container_name: cloudlog-main
-            depends_on:
-            - cloudlog-mysql
-            volumes:
-            - cloudlog-config:/var/www/html/application/config
-            - cloudlog-backup:/var/www/html/application/backup
-            - cloudlog-uploads:/var/www/html/application/uploads
-            - cloudlog-crontab:/etc/crontab
-            ports:
-            - "7373:80"
-            restart: unless-stopped  
-            
-        cloudlog-mysql:
-            image: mysql:latest
-            container_name: cloudlog-mysql
-            environment:
-            MYSQL_RANDOM_ROOT_PASSWORD: yes
-            MYSQL_DATABASE: cloudlog
-            MYSQL_USER: cloudlog
-            MYSQL_PASSWORD: "STRONG_PASSWORD"
-            volumes:
-            - cloudlog-dbdata:/var/lib/mysql
-            restart: unless-stopped
+version: '3'
+services:
+  cloudlog-main:
+    image: jk13xyz/cloudlog:latest
+    container_name: cloudlog-main
+    depends_on:
+      - cloudlog-mysql
+    volumes:
+      - cloudlog-config:/var/www/html/application/config
+      - cloudlog-backup:/var/www/html/backup
+      - cloudlog-uploads:/var/www/html/uploads
+      - cloudlog-images:/var/www/html/images
+      - cloudlog-crontab:/var/www/html/crontab
+    ports:
+      - "7373:80"
+    restart: unless-stopped  
+    
+  cloudlog-mysql:
+    image: mysql:latest
+    container_name: cloudlog-mysql
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: yes
+      MYSQL_DATABASE: cloudlog
+      MYSQL_USER: cloudlog
+      MYSQL_PASSWORD: "STRONG_PASSWORD"
+    volumes:
+      - cloudlog-dbdata:/var/lib/mysql
+    restart: unless-stopped
 
-        cloudlog-phpmyadmin:
-            image: phpmyadmin:latest
-            container_name: cloudlog-phpmyadmin
-            depends_on:
-            - cloudlog-mysql
-            environment:
-            PMA_HOST: cloudlog-mysql
-            PMA_PORT: 3306
-            PMA_USER: cloudlog
-            PMA_PASSWORD: "STRONG_PASSWORD"
-            restart: unless-stopped
-            ports:
-            - "7374:80" 
+  cloudlog-phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: cloudlog-phpmyadmin
+    depends_on:
+      - cloudlog-mysql
+    environment:
+      PMA_HOST: cloudlog-mysql
+      PMA_PORT: 3306
+      PMA_USER: cloudlog
+      PMA_PASSWORD: "STRONG_PASSWORD"
+    restart: unless-stopped
+    ports:
+      - "7374:80" 
 
-        volumes:
-        cloudlog-dbdata:
-        cloudlog-config:
-        cloudlog-backup:
-        cloudlog-uploads:
-        cloudlog-crontab:
+volumes:
+  cloudlog-dbdata:
+  cloudlog-config:
+  cloudlog-backup:
+  cloudlog-uploads:
+  cloudlog-images:
+  cloudlog-crontab:
 ```
 
 ### Docker Run
@@ -79,6 +87,7 @@ I created it after the team behind Cloudlog decided to rescind any support for D
 docker volume create cloudlog-dbdata && \
 docker volume create cloudlog-config && \
 docker volume create cloudlog-backup && \
+docker volume create cloudlog-images && \
 docker volume create cloudlog-uploads && \
 docker volume create cloudlog-crontab
     
@@ -86,8 +95,9 @@ docker run -d \
     --name cloudlog-main \
     -v cloudlog-config:/var/www/html/application/config \
     -v cloudlog-backup:/var/www/html/application/backup \
+    -v cloudlog-images:/var/www/html/images \    
     -v cloudlog-uploads:/var/www/html/application/uploads \
-    -v cloudlog-uploads:/etc/crontab \
+    -v cloudlog-crontab:/var/www/html/crontab \
     -p 7373:80 \
     --restart unless-stopped \
     jk13xyz/cloudlog:latest
