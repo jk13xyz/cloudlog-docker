@@ -41,7 +41,7 @@ RUN chmod -R g+rw ./application/config/ \
 COPY misc/cronjob_backup.sh /var/www/html/
 RUN chmod g+rwx ./cronjob_backup.sh && \
     chmod +x ./cronjob_backup.sh
-RUN mkdir ./crontab && \
+RUN mkdir /var/www/html/crontab && \
     ln -s /etc/crontab ./crontab/crontab && \
     echo "0 */12 * * * curl --silent http://localhost/clublog/upload &>/dev/null" >> /var/www/html/crontab/crontab && \
     echo "10 */12 * * * curl --silent http://localhost/qrz/upload &>/dev/null" >> /var/www/html/crontab/crontab && \
@@ -53,8 +53,11 @@ RUN mkdir ./crontab && \
     echo "20 1 * * 1 curl --silent http://localhost/update/update_clublog_scp &>/dev/null" >> /var/www/html/crontab/crontab && \
     echo "0 2 1 */1 * curl --silent http://localhost/update/update_sota &>/dev/null" >> /var/www/html/crontab/crontab && \
     echo "10 2 1 */1 * curl --silent http://localhost/update/update_wwff &>/dev/null" >> /var/www/html/crontab/crontab && \
-    echo "20 2 1 */1 * curl --silent http://localhost/update/update_pota &>/dev/null" >> /var/www/html/crontab/crontab \
-    echo "0 3 1 */6 *  curl --silent http://localhost/update/update_dok &>/dev/null" >> /var/www/html/crontab/crontab    
+    echo "20 2 1 */1 * curl --silent http://localhost/update/update_pota &>/dev/null" >> /var/www/html/crontab/crontab && \
+    echo "0 3 1 */6 *  curl --silent http://localhost/update/update_dok &>/dev/null" >> /var/www/html/crontab/crontab && \
+    echo "# 0 5 * * * curl --silent https://localhost/backup/adif/ &>/dev/null" >> /var/www/html/crontab/crontab && \
+    echo "# 10 5 * * * curl --silent https://localhost/backup/notes/ &>/dev/null" >> /var/www/html/crontab/crontab && \
+    echo "# 20 5 * * * root find /var/www/html/backup -name 'logbook_*' -o -name 'notes_*' -type f -printf '%T@ %p\n' | sort -k1,1nr | awk 'NR>30 {print $2}' | xargs rm -f" >> /var/www/html/crontab/crontab
 RUN chmod 0644 /var/www/html/crontab/crontab
 RUN crontab /etc/crontab
 RUN sed -i 's/^exec /service cron start\n\nexec /' /usr/local/bin/apache2-foreground 
