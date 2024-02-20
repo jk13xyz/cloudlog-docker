@@ -14,7 +14,7 @@ I created it after the team behind Cloudlog decided to rescind any support for D
 
 ## Current version
 
-2.6.4
+2.6.5
 
 ## Usage
 
@@ -34,6 +34,7 @@ I created it after the team behind Cloudlog decided to rescind any support for D
             - cloudlog-config:/var/www/html/application/config
             - cloudlog-backup:/var/www/html/application/backup
             - cloudlog-uploads:/var/www/html/application/uploads
+            - cloudlog-crontab:/etc/crontab
             ports:
             - "7373:80"
             restart: unless-stopped  
@@ -69,6 +70,7 @@ I created it after the team behind Cloudlog decided to rescind any support for D
         cloudlog-config:
         cloudlog-backup:
         cloudlog-uploads:
+        cloudlog-crontab:
 ```
 
 ### Docker Run
@@ -77,13 +79,15 @@ I created it after the team behind Cloudlog decided to rescind any support for D
 docker volume create cloudlog-dbdata && \
 docker volume create cloudlog-config && \
 docker volume create cloudlog-backup && \
-docker volume create cloudlog-uploads
+docker volume create cloudlog-uploads && \
+docker volume create cloudlog-crontab
     
 docker run -d \
     --name cloudlog-main \
     -v cloudlog-config:/var/www/html/application/config \
     -v cloudlog-backup:/var/www/html/application/backup \
     -v cloudlog-uploads:/var/www/html/application/uploads \
+    -v cloudlog-uploads:/etc/crontab \
     -p 7373:80 \
     --restart unless-stopped \
     jk13xyz/cloudlog:latest
