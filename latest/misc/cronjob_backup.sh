@@ -1,19 +1,27 @@
 #!/bin/bash
 
 add_cron_job() {
-    key=$1
+    key=$1  
 
     if [[ ! $key =~ ^cl[a-z0-9]+$ ]]; then
         echo "Error: Invalid key format."
         exit 1
     fi
 
-    sed -i "s|^#0 */24 * * * curl --silent https://localhost/backup/adif/|0 */24 * * * curl --silent https://localhost/backup/adif/$key|g" /var/www/html/crontab/crontab
-    sed -i "s|^#0 */24 * * * curl --silent https://localhost/backup/notes/|0 */24 * * * curl --silent https://localhost/backup/notes/$key|g" /var/www/html/crontab/crontab
-    sed -i "s|^#0 */6 * * * root find /var/www/html/backup -name 'logbook_*' -o -name 'notes_*' -type f -printf '%T@ %p\n' | sort -k1,1nr | awk 'NR>30 {print \$2}' | xargs rm -f|0 */6 * * * root find /var/www/html/backup -name 'logbook_*' -o -name 'notes_*' -type f -printf '%T@ %p\n' | sort -k1,1nr | awk 'NR>30 {print \$2}' | xargs rm -f|g" /var/www/html/crontab/crontab
-
+    sed -i -e "s/^# \(.*\)\/adif\/ \(.*\)$/ \1\/adif\/$key \2/" \
+       -e "s/^# \(.*\)\/notes\/ \(.*\)$/ \1\/notes\/$key \2/" \
+       -e 's/^# //' -e '/^\s*$/d' /var/www/html/crontab/crontab
     
-    echo "Cronjobs added successfully."
+    cp /var/www/html/crontab/crontab /etc/crontab
+
+    echo "Cronjobs added successfully to crontab file."
+    
+    echo "Will restart cron service now."    
+
+    service cron restart
+
+    echo "All done."
+
 }
 
 while getopts "K:" opt; do
