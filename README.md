@@ -96,7 +96,7 @@ docker run -d \
     -v cloudlog-config:/var/www/html/application/config \
     -v cloudlog-backup:/var/www/html/application/backup \
     -v cloudlog-images:/var/www/html/images \    
-    -v cloudlog-uploads:/var/www/html/application/uploads \
+    -v cloudlog-uploads:/var/www/html/uploads \
     -v cloudlog-crontab:/var/www/html/crontab \
     -p 7373:80 \
     --restart unless-stopped \

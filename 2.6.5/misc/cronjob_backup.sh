@@ -1,17 +1,27 @@
 #!/bin/bash
 
 add_cron_job() {
-    key=$1
+    key=$1  
 
     if [[ ! $key =~ ^cl[a-z0-9]+$ ]]; then
         echo "Error: Invalid key format."
         exit 1
     fi
 
-    echo "0 5 * * * curl --silent https://localhost/backup/adif/$key &>/dev/null" >> /var/www/html/crontab/crontab
-    echo "10 5 * * * curl --silent https://localhost/backup/notes/$key &>/dev/null" >> /var/www/html/crontab/crontab
-    echo "20 5 * * * root find /var/www/html/backup -name 'logbook_*' -o -name 'notes_*' -type f -printf '%T@ %p\n' | sort -k1,1nr | awk 'NR>30 {print $2}' | xargs rm -f" >> /var/www/html/crontab/crontab
-    echo "Cronjobs added successfully."
+    sed -i -e "s/^# \(.*\)\/adif\/ \(.*\)$/ \1\/adif\/$key \2/" \
+       -e "s/^# \(.*\)\/notes\/ \(.*\)$/ \1\/notes\/$key \2/" \
+       -e 's/^# //' -e '/^\s*$/d' /var/www/html/crontab/crontab
+    
+    cp /var/www/html/crontab/crontab /etc/crontab
+
+    echo "Cronjobs added successfully to crontab file."
+    
+    echo "Will restart cron service now."    
+
+    service cron restart
+
+    echo "All done."
+
 }
 
 while getopts "K:" opt; do
