@@ -8,17 +8,17 @@ add_cron_job() {
         exit 1
     fi
 
-    sed -i -e "s/^# \(.*\)\/adif\/ \(.*\)$/ \1\/adif\/$key \2/" \
-       -e "s/^# \(.*\)\/notes\/ \(.*\)$/ \1\/notes\/$key \2/" \
-       -e 's/^# //' -e '/^\s*$/d' /var/www/html/crontab/crontab
-    
-    cp /var/www/html/crontab/crontab /etc/crontab
+    sed -i -e "s/^#\(.*\)\/adif\/ \(.*\)$/ \1\/adif\/$key \2/" \
+        -e "s/^#\(.*\)\/notes\/ \(.*\)$/ \1\/notes\/$key \2/" \
+        -e '/^#/s/^#//' -e '/^\s*$/d' /var/www/html/crontab/crontab
+
+    echo >> /var/www/html/crontab/crontab
 
     echo "Cronjobs added successfully to crontab file."
     
     echo "Will restart cron service now."    
 
-    service cron restart
+    crontab /var/www/html/crontab/crontab
 
     echo "All done."
 
