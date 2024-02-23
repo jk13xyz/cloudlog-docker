@@ -17,7 +17,7 @@ RUN docker-php-ext-install \
     mysqli \
     mbstring \
     xml
-RUN a2enmod rewrite    
+RUN a2enmod rewrite
 RUN cd /var/www/html && rm -rf *
 WORKDIR /var/www/html
 RUN wget https://github.com/magicbug/Cloudlog/archive/refs/tags/${VERSION}.tar.gz && \
@@ -41,9 +41,8 @@ RUN chmod -R g+rw ./application/config/ \
 COPY misc/cronjob_backup.sh /var/www/html/
 RUN chmod g+rwx ./cronjob_backup.sh && \
     chmod +x ./cronjob_backup.sh
-COPY misc/crontab /etc/crontab
 RUN mkdir /var/www/html/crontab
 COPY misc/crontab /var/www/html/crontab
-RUN chmod 0644 /etc/crontab
+RUN echo "50 23 * * * crontab /var/www/html/crontab/crontab" >> /etc/crontab
 RUN sed -i 's/^exec /service cron start\n\nexec /' /usr/local/bin/apache2-foreground 
 HEALTHCHECK CMD wget -q --no-cache --spider localhost/user/login
