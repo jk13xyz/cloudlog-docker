@@ -1,6 +1,6 @@
-FROM php:8.2-apache        
-ARG VERSION=2.6.5                                                                                              
-RUN touch /usr/local/etc/php/conf.d/uploads.ini && \                                                                                                           
+FROM php:8.2-apache
+ARG VERSION=2.6.5
+RUN touch /usr/local/etc/php/conf.d/uploads.ini && \
     echo "file_uploads = On" >> /usr/local/etc/php/conf.d/uploads.ini && \
     echo "memory_limit = 64M" >> /usr/local/etc/php/conf.d/uploads.ini && \
     echo "upload_max_filesize = 64M" >> /usr/local/etc/php/conf.d/uploads.ini && \
@@ -43,6 +43,7 @@ RUN chmod g+rwx ./cronjob_backup.sh && \
     chmod +x ./cronjob_backup.sh
 RUN mkdir /var/www/html/crontab
 COPY misc/crontab /var/www/html/crontab
+RUN sed -i 's/\r$//g' /var/www/html/crontab/crontab
 RUN echo "50 23 * * * crontab /var/www/html/crontab/crontab" >> /etc/crontab
-RUN sed -i 's/^exec /service cron start\n\nexec /' /usr/local/bin/apache2-foreground 
+RUN sed -i 's/^exec /service cron start\n\nexec /' /usr/local/bin/apache2-foreground
 HEALTHCHECK CMD wget -q --no-cache --spider localhost/user/login
