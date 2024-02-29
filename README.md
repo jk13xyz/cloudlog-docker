@@ -233,6 +233,8 @@ You can easily turn this command into a cronjob. If you have crontab installed, 
 echo "0 6 * * * docker exec cloudlog-mysql /bin/sh -c 'mysqldump --user cloudlog --password=YOUR_PASSWORD cloudlog' > /your/path/to/cloudlog.sql" >> /etc/crontab
 ```
 
+With that set, keep the 3-2-1 backup rule (3 copies, 2 different media, 1 copy off-site) in mind. Any backup should also at the very least keep the cloudlog-config backup in mind. If you use functionalities such as displaying your QSL cards, also include cloudlog-images.
+
 ## Support
 
 Please note, this is primarily for my own setup. Feel free to use it (it should work fine). If you find issues, report them on my [Github](https://github.com/jk13xyz/cloudlog-docker/issues). However, **I don't guarantee any support.**
