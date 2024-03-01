@@ -191,7 +191,7 @@ On the 1st of every month at 02:20
 
 ### DOK database update
 
-Every 6 months on the 1st at 03:00
+On the 1st of every month at 03:00
 
 ### Automatic backup of the ADIF log and Notes
 
