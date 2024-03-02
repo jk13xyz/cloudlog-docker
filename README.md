@@ -215,7 +215,7 @@ This will install a cronjob running daily at 05:00 exporting both the ADIF log a
 
 For direct access, you may map the volume to a folder on the server running Docker. From there, you have plenty of options to implement a good backup strategy. See the Backup section below for some hints.
 
-Do you need this cronjob? Truth be told, for backing up, there are other, better ways, to ensure your data is safe from loss. I added it so you have the option to use it, if you'd like.
+Do you _**need**_ this cronjob? Truth be told, for backing up, there are other, better ways, to ensure your data is safe from loss. I added it so you have the option to use it, if you'd like. It doesn't hurt to use it.
 
 ## Backup
 
