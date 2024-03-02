@@ -139,9 +139,9 @@ docker run -d \
 
     - If Cloudlog installs into a blank screen, open the base URL
 
-## Cronjobs
+## Default cronjobs
 
-All cronjobs are set by the Dockerfile. They don't need to be manually enabled. They can be updated, but this is a hassle. I use these settings because they made the most sense to me. The spacing is done to ensure the scripts don't run concurrently and cause time-outs.
+The following cronjobs are set by default through the Dockerfile They don't need to be manually enabled. They can be updated, but this is a hassle. I use these settings because they made the most sense to me. The spacing is done to ensure the scripts don't run concurrently and cause time-outs.
 
 The set cronjobs and runtimes are:
 
@@ -193,9 +193,11 @@ On the 1st of every month at 02:20
 
 On the 1st of every month at 03:00
 
+## Optional cronjobs
+
 ### Automatic backup of the ADIF log and Notes
 
-_This cronjob is optional and not recommended as a sole backup solution_
+_This cronjob is optional and not recommended as a sole backup solution._
 
 Automating the backup of the logbook as ADIF, as well as the notes, is something that cannot be accomplished by default. Unlike the aforementioned cronjobs, backups require authentication. If this is a functionality you want, you will have to install and setup Cloudlog first. I have provided a shell script in the container to setup the required cronjobs.
 
@@ -211,7 +213,9 @@ docker exec cloudlog-main /bin/sh -c './cronjob_backup.sh -K <YOUR API KEY>'
 
 This will install a cronjob running daily at 05:00 exporting both the ADIF log and at 05:10 for the Notes, into the Docker volume called "cloudlog-backup". The cronjob also handles deleting all files older than 30 days (runs at 05:20).
 
-For direct access, you may map the volume to a folder on the server running Docker. From there, you have plenty of options to implement a good backup strategy.
+For direct access, you may map the volume to a folder on the server running Docker. From there, you have plenty of options to implement a good backup strategy. See the Backup section below for some hints.
+
+Do you need this cronjob? Truth be told, for backing up, there are other, better ways, to ensure your data is safe from loss. I added it so you have the option to use it, if you'd like.
 
 ## Backup
 
