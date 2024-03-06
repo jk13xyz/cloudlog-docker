@@ -26,8 +26,4 @@ jobs:
         run: docker build -t jk13xyz/cloudlog:latest ./latest
 
       - name: Push Docker image to Docker Hub
-<<<<<<< HEAD
         run: docker push jk13xyz/cloudlog:latest
-=======
-        run: docker push jk13xyz/cloudlog:latest
->>>>>>> fd07fd0217aeac953fa6f8a5e404b7bd5cc4ac94
