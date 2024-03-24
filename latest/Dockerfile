@@ -40,7 +40,7 @@ RUN touch /etc/crontab && \
     echo "20 1 * * 1 curl --silent http://localhost/update/update_clublog_scp &>/dev/null" >> /etc/crontab && \
     echo "0 2 1 */1 * curl --silent http://localhost/update/update_sota &>/dev/null" >> /etc/crontab && \
     echo "10 2 1 */1 * curl --silent http://localhost/update/update_wwff &>/dev/null" >> /etc/crontab && \
-    echo "20 2 1 */1 * curl --silent http://localhost/update/update_pota &>/dev/null" >> /etc/crontab \
+    echo "20 2 1 */1 * curl --silent http://localhost/update/update_pota &>/dev/null" >> /etc/crontab && \
     echo "0 3 1 */1 *  curl --silent http://localhost/update/update_dok &>/dev/null" >> /etc/crontab    
 RUN chmod 0644 /etc/crontab
 RUN crontab /etc/crontab
