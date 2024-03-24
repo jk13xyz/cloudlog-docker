@@ -29,21 +29,21 @@ RUN chown -R www-data:www-data /var/www/html
 RUN sed -i "s/\$config\['index_page'\] = 'index.php';/\$config\['index_page'\] = '';/g" ./install/config/config.php
 COPY misc/.htaccess /var/www/html/
 RUN sed -i "s/define('ENVIRONMENT', 'development');/define('ENVIRONMENT', 'production');/" ./index.php
-RUN chmod -R g+rw ./application/config/ \
-    && chmod -R g+rw ./application/logs/ \
-    && chmod -R g+rw ./assets/qslcard/ \
-    && chmod -R g+rw ./backup/ \
-    && chmod -R g+rw ./updates/ \
-    && chmod -R g+rw ./uploads/ \
-    && chmod -R g+rw ./images/eqsl_card_images/ \
-    && chmod -R g+rw ./assets/json/ \
-    && chmod -R 777 /var/www/html/install
-COPY misc/cronjob_backup.sh /var/www/html/
-RUN chmod g+rwx ./cronjob_backup.sh && \
-    chmod +x ./cronjob_backup.sh
-RUN mkdir /var/www/html/crontab
-COPY misc/crontab /var/www/html/crontab
-RUN sed -i 's/\r$//g' /var/www/html/crontab/crontab
-RUN echo "50 23 * * * crontab /var/www/html/crontab/crontab" >> /etc/crontab
-RUN sed -i 's/^exec /service cron start\n\nexec /' /usr/local/bin/apache2-foreground
+RUN touch /etc/crontab && \
+    echo "0 */12 * * * curl --silent http://localhost/clublog/upload &>/dev/null" >> /etc/crontab && \
+    echo "10 */12 * * * curl --silent http://localhost/eqsl/sync &>/dev/null" >> /etc/crontab && \    
+    echo "20 */12 * * * curl --silent http://localhost/qrz/upload &>/dev/null" >> /etc/crontab && \
+    echo "30 */12 * * * curl --silent http://localhost/qrz/download &>/dev/null" >> /etc/crontab && \        
+    echo "40 */12 * * * curl --silent http://localhost/hrdlog/upload &>/dev/null" >> /etc/crontab && \
+    echo "0 1 * * * curl --silent http://localhost/lotw/lotw_upload &>/dev/null" >> /etc/crontab && \     
+    echo "10 1 * * * curl --silent http://localhost/update/lotw_users &>/dev/null" >> /etc/crontab && \
+    echo "20 1 * * 1 curl --silent http://localhost/update/update_clublog_scp &>/dev/null" >> /etc/crontab && \
+    echo "0 2 1 */1 * curl --silent http://localhost/update/update_sota &>/dev/null" >> /etc/crontab && \
+    echo "10 2 1 */1 * curl --silent http://localhost/update/update_wwff &>/dev/null" >> /etc/crontab && \
+    echo "20 2 1 */1 * curl --silent http://localhost/update/update_pota &>/dev/null" >> /etc/crontab && \
+    echo "0 3 1 */1 *  curl --silent http://localhost/update/update_dok &>/dev/null" >> /etc/crontab    
+RUN chmod 0644 /etc/crontab
+RUN crontab /etc/crontab
+RUN mkdir -p /var/log/cron
+RUN sed -i 's/^exec /service cron start\n\nexec /' /usr/local/bin/apache2-foreground 
 HEALTHCHECK CMD wget -q --no-cache --spider localhost/user/login
