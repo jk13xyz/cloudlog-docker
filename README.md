@@ -14,7 +14,7 @@ I created it after the team behind Cloudlog decided to rescind any support for D
 
 ## Current version
 
-2.6.8
+2.6.9
 
 ### Please note
 
@@ -191,7 +191,7 @@ On the 1st of every month at 03:00
 
 While the ADIF file can be useful, it's crucial to backup the MySQL database in regular intervals as well. This is even more important when you use more than just one station location and/or users.
 
-You can find a good shell script for backing up MySQL databases running on Docker here. [Link (In German)](https://www.laub-home.de/wiki/Docker_MySQL_and_MariaDB_Backup_Script)
+I have ready-made scripts for backup available at [jk13xyz/backup-scripts](https://github.com/jk13xyz/backup-scripts).
 
 This script is especially helpful when you run more than one MySQL container.
 
