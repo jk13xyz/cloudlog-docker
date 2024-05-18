@@ -16,6 +16,7 @@ I created it after the team behind Cloudlog decided to rescind any support for D
 
 2.6.12
 
+
 ### Please note
 
 Whenever this image is updated post-install, the version number will not update in Cloudlog under "Debug Information" and "Version Info". This is due to a slight oddity with Cloudlog since the version number is a value stored in the MySQL database.
