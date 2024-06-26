@@ -14,7 +14,7 @@ I created it after the team behind Cloudlog decided to rescind any support for D
 
 ## Current version
 
-2.6.14
+2.6.15
 
 
 ### Please note
