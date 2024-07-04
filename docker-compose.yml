@@ -7,10 +7,8 @@ services:
       - cloudlog-mysql
     volumes:
       - cloudlog-config:/var/www/html/application/config
-      - cloudlog-backup:/var/www/html/backup
       - cloudlog-uploads:/var/www/html/uploads
       - cloudlog-images:/var/www/html/images
-      - cloudlog-crontab:/var/www/html/crontab
     ports:
       - "7373:80"
     restart: unless-stopped  
@@ -44,7 +42,5 @@ services:
 volumes:
   cloudlog-dbdata:
   cloudlog-config:
-  cloudlog-backup:
   cloudlog-uploads:
   cloudlog-images:
-  cloudlog-crontab:
