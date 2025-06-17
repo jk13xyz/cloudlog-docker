@@ -14,9 +14,7 @@ I created it after the team behind Cloudlog decided to rescind any support for D
 
 ## Current version
 
-2.6.16
-
-**When updating, please note the [Changelog](https://github.com/magicbug/Cloudlog/releases/tag/2.6.16)!**
+2.6.19
 
 ### Please note
 
